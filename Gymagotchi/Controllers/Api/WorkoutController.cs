@@ -23,15 +23,22 @@ namespace Gymagotchi.Controllers.Api
         [ActionName("Ping")]
         public ActionResult<IEnumerable<string>> Ping()
         {
+            //var userId = new Guid("48577875-4D33-4543-8440-8321EB4BAAA3");
+
+            //var command = new AddWorkoutCommand();
+            //command.UserId = userId;
+        
+            //_workoutService.AddWorkout(command);
+
             return new string[] { "WorkoutController" };
         }
 
         [HttpPost]
-        [ActionName("AddWorkout")]
+        [ActionName("Add")]
         public IActionResult AddWorkout([FromBody] AddWorkoutCommand command)
         {
             var userId = new Guid("48577875-4D33-4543-8440-8321EB4BAAA3");
-            
+
             _workoutService.AddWorkout(command);
 
             return Ok();

@@ -12,5 +12,18 @@ namespace Gymagotchi.Models
         public string Desc { get; set; }
         public ExerciseCategory ExerciseCategory { get; set; }
         public ExerciseMode ExerciseMode { get; set; }
+
+        public Exercise(string name, string desc, ExerciseCategory exerciseCategory, ExerciseMode exerciseMode)
+        {
+            Id = Guid.NewGuid();
+            Name = name;
+            Desc = desc;
+            ExerciseMode = ExerciseMode;
+            ExerciseCategory = exerciseCategory;
+        }
+        public Exercise()
+        {
+
+        }
     }
 }

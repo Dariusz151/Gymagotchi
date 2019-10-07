@@ -4,13 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Gymagotchi.Commands
+namespace Gymagotchi.ViewModels
 {
-    public class AddWorkoutCommand : ICommand
+    public class WorkoutFormViewModel
     {
         public Guid UserId { get; set; }
         public string Description { get; set; }
-        public List<ExerciseSet> Exercises { get; set; }
+        public IEnumerable<ExerciseSetViewModel> Exercises { get; set; }
         public DateTime ExecutedAt { get; set; }
+
+        public WorkoutFormViewModel()
+        {
+
+        }
     }
 }

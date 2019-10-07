@@ -18,7 +18,7 @@ namespace Gymagotchi.Services
 
         public void AddWorkout(AddWorkoutCommand command)
         {
-            throw new NotImplementedException();
+            _workoutRepository.AddWorkout(command);
         }
     }
 }

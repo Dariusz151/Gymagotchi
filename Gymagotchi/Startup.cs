@@ -13,6 +13,9 @@ using Microsoft.EntityFrameworkCore;
 using Gymagotchi.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Gymagotchi.Services;
+using Gymagotchi.Interfaces;
+using Gymagotchi.Repositories;
 
 namespace Gymagotchi
 {
@@ -41,6 +44,9 @@ namespace Gymagotchi
             services.AddDefaultIdentity<IdentityUser>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddScoped<IWorkoutService, WorkoutService>();
+            services.AddScoped<IWorkoutRepository, WorkoutRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
