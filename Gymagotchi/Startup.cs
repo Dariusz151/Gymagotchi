@@ -11,11 +11,21 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Gymagotchi.Data;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Gymagotchi.Services;
 using Gymagotchi.Interfaces;
 using Gymagotchi.Repositories;
+using Autofac;
+using Gymagotchi.Modules;
+using System.IO;
+using System.Reflection;
+using Autofac.Builder;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.Extensions.Configuration.UserSecrets;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using CommonServiceLocator;
 
 namespace Gymagotchi
 {
@@ -29,14 +39,33 @@ namespace Gymagotchi
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        //public void ConfigureServices(IServiceCollection services)
+        //{
+        //    services.Configure<CookiePolicyOptions>(options =>
+        //    {
+        //        // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+        //        options.CheckConsentNeeded = context => true;
+        //        options.MinimumSameSitePolicy = SameSiteMode.None;
+        //    });
+
+        //    services.AddDbContext<ApplicationDbContext>(options =>
+        //        options.UseSqlServer(
+        //            Configuration.GetConnectionString("DefaultConnection")));
+        //    services.AddDefaultIdentity<IdentityUser>()
+        //        .AddDefaultUI(UIFramework.Bootstrap4)
+        //        .AddEntityFrameworkStores<ApplicationDbContext>();
+
+        //    services.AddScoped<IWorkoutService, WorkoutService>();
+        //    services.AddScoped<IWorkoutRepository, WorkoutRepository>();
+        //    services.AddScoped<IExerciseRepository, ExerciseRepository>();
+        //    services.AddScoped<IExerciseService, ExerciseService>();
+
+        //    services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+        //}
+
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
@@ -45,12 +74,24 @@ namespace Gymagotchi
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddScoped<IWorkoutService, WorkoutService>();
-            services.AddScoped<IWorkoutRepository, WorkoutRepository>();
-            services.AddScoped<IExerciseRepository, ExerciseRepository>();
-            services.AddScoped<IExerciseService, ExerciseService>();
+           
+            return CreateAutofacServiceProvider(services);
+        }
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+        private IServiceProvider CreateAutofacServiceProvider(IServiceCollection services)
+        {
+            var container = new ContainerBuilder();
+            
+            container.Populate(services);
+
+            container.RegisterModule(new InfrastructureModule(Configuration.GetConnectionString("DefaultConnection")));
+            container.RegisterModule(new MediatorModule());
+            
+            var buildContainer = container.Build();
+
+            ServiceLocator.SetLocatorProvider(() => new AutofacServiceLocator(buildContainer));
+
+            return new AutofacServiceProvider(buildContainer);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

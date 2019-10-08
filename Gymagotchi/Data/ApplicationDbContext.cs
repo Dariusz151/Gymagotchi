@@ -12,7 +12,9 @@ namespace Gymagotchi.Data
         public DbSet<Workout> Workouts { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
 
-        
+        public DbSet<InternalCommand> InternalCommands { get; set; }
+
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
