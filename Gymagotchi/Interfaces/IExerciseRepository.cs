@@ -1,4 +1,4 @@
-﻿using Gymagotchi.Commands;
+﻿using Gymagotchi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Gymagotchi.Interfaces
 {
-    public interface IWorkoutService
+    public interface IExerciseRepository
     {
-        //void AddWorkout(AddWorkoutCommand command);
+        Task<bool> AddExerciseAsync(Exercise exercise);
     }
 }

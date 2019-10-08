@@ -16,9 +16,9 @@ namespace Gymagotchi.Services
             _workoutRepository = workoutRepository;
         }
 
-        public void AddWorkout(AddWorkoutCommand command)
-        {
-            _workoutRepository.AddWorkout(command);
-        }
+        //public void AddWorkout(AddWorkoutCommand command)
+        //{
+        //    _workoutRepository.AddWorkout(command);
+        //}
     }
 }

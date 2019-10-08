@@ -1,0 +1,54 @@
+﻿@model Gymagotchi.ViewModels.ExerciseFormViewModel
+
+@{
+    ViewData["Title"] = "New exercise";
+}
+
+<div>
+    <div class="form-group">
+        <label for="inputName">Name</label>
+        <input type="text" class="form-control" id="inputName" placeholder="Enter name">
+    </div>
+    <div class="form-group">
+        <label for="inputDesc">Desc</label>
+        <input type="text" class="form-control" id="inputDesc" placeholder="Description">
+    </div>
+
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Exercise categories
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            @foreach (var el in Model.ExerciseCategories)
+            {
+                <a class="dropdown-item">@el.ToString()</a>
+            }
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Exercise modes
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+            @foreach (var el in Model.ExerciseModes)
+            {
+                <a class="dropdown-item">@el.ToString()</a>
+            }
+        </div>
+    </div>
+
+    <button class="btn btn-primary js-create">Save</button>
+</div>
+
+@section scripts
+{ 
+    <script>
+        $(document).ready(function () {
+            $(".js-create").on("click", function () {
+                console.log("siema");
+                console.log($(this));
+            });
+        });
+    </script>
+}

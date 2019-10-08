@@ -4,14 +4,16 @@ using Gymagotchi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Gymagotchi.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191008160218_AddExercisesEntity")]
+    partial class AddExercisesEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,11 +28,9 @@ namespace Gymagotchi.Data.Migrations
 
                     b.Property<string>("Desc");
 
-                    b.Property<string>("ExerciseCategory")
-                        .IsRequired();
+                    b.Property<int>("ExerciseCategory");
 
-                    b.Property<string>("ExerciseMode")
-                        .IsRequired();
+                    b.Property<int>("ExerciseMode");
 
                     b.Property<string>("Name");
 

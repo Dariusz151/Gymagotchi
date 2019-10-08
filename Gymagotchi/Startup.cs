@@ -47,6 +47,8 @@ namespace Gymagotchi
 
             services.AddScoped<IWorkoutService, WorkoutService>();
             services.AddScoped<IWorkoutRepository, WorkoutRepository>();
+            services.AddScoped<IExerciseRepository, ExerciseRepository>();
+            services.AddScoped<IExerciseService, ExerciseService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

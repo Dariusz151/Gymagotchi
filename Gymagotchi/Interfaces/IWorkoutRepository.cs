@@ -8,6 +8,6 @@ namespace Gymagotchi.Interfaces
 {
     public interface IWorkoutRepository
     {
-        void AddWorkout(AddWorkoutCommand command);
+        //void AddWorkout(AddWorkoutCommand command);
     }
 }

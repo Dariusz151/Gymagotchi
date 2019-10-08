@@ -11,20 +11,7 @@ namespace Gymagotchi.Controllers
     {
         public IActionResult Index()
         {
-            var exerciseViewModel = new ExerciseViewModel();
-            var exerciseSetViewModel = new ExerciseSetViewModel();
-
-            exerciseSetViewModel.Exercise = exerciseViewModel;
-            exerciseSetViewModel.Repeats = 0;
-            exerciseSetViewModel.SetsAmount = 0;
-
-            List<ExerciseSetViewModel> exerciseSetViewModelList = new List<ExerciseSetViewModel>();
-            exerciseSetViewModelList.Add(exerciseSetViewModel);
-            
-            var workoutFormViewModel = new WorkoutFormViewModel();
-            workoutFormViewModel.Exercises = exerciseSetViewModelList;
-
-            return View("Index", workoutFormViewModel);
+            return View("Index");
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Gymagotchi.Commands
 {
-    public class ICommand
+    public interface ICommand
     {
         // marker
     }
