@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gymagotchi.Requests.Common;
+using System;
 
 namespace Gymagotchi.Commands
 {

@@ -20,6 +20,7 @@ using Autofac;
 using System.Reflection;
 using Gymagotchi.Commands;
 using Swashbuckle.AspNetCore.Swagger;
+using Gymagotchi.Requests.Common;
 
 namespace Gymagotchi
 {
@@ -59,6 +60,8 @@ namespace Gymagotchi
             builder.RegisterType<ExerciseRepository>()
                 .As<IExerciseRepository>()
                 .InstancePerLifetimeScope();
+
+            builder.RegisterType<QueryDispatcher>().As<IQueryDispatcher>();
 
             builder.Populate(services);
             var container = builder.Build();

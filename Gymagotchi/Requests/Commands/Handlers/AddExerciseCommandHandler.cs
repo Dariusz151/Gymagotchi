@@ -1,10 +1,11 @@
 ﻿using Gymagotchi.Interfaces;
 using Gymagotchi.Models;
+using Gymagotchi.Requests.Common;
 using System;
 
 namespace Gymagotchi.Commands
 {
-    public class AddExerciseCommandHandler : IHandleCommand<AddExerciseCommand>
+    public class AddExerciseCommandHandler : ICommandHandler<AddExerciseCommand>
     {
         private readonly IExerciseRepository _exerciseRepository;
 

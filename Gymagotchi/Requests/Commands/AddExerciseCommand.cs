@@ -1,4 +1,5 @@
 ﻿using Gymagotchi.Dtos;
+using Gymagotchi.Requests.Common;
 
 namespace Gymagotchi.Commands
 {

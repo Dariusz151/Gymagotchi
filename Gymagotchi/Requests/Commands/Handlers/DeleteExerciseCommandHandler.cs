@@ -1,9 +1,10 @@
 ﻿using Gymagotchi.Interfaces;
+using Gymagotchi.Requests.Common;
 using System;
 
 namespace Gymagotchi.Commands.Handlers
 {
-    public class DeleteExerciseCommandHandler : IHandleCommand<DeleteExerciseCommand>
+    public class DeleteExerciseCommandHandler : ICommandHandler<DeleteExerciseCommand>
     {
         private readonly IExerciseRepository _exerciseRepository;
 

@@ -1,9 +1,7 @@
 ﻿using Autofac;
-using System.Reflection;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Gymagotchi.Requests.Common;
 
 namespace Gymagotchi.Commands
 {
@@ -14,17 +12,17 @@ namespace Gymagotchi.Commands
             base.Load(builder);
 
             builder.RegisterAssemblyTypes(ThisAssembly)
-                .Where(x => x.IsAssignableTo<IHandleCommand>())
+                .Where(x => x.IsAssignableTo<ICommandHandler>())
                 .AsImplementedInterfaces();
 
-            builder.Register<Func<Type, IHandleCommand>>(c =>
+            builder.Register<Func<Type, ICommandHandler>>(c =>
             {
                 var ctx = c.Resolve<IComponentContext>();
 
                 return t =>
                 {
-                    var handlerType = typeof(IHandleCommand<>).MakeGenericType(t);
-                    return (IHandleCommand)ctx.Resolve(handlerType);
+                    var handlerType = typeof(ICommandHandler<>).MakeGenericType(t);
+                    return (ICommandHandler)ctx.Resolve(handlerType);
                 };
             });
 

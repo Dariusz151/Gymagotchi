@@ -1,10 +1,6 @@
 ﻿using Gymagotchi.Commands;
-using Gymagotchi.Interfaces;
+using Gymagotchi.Requests.Common;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Gymagotchi.Controllers.Api
 {

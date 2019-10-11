@@ -1,4 +1,4 @@
-﻿namespace Gymagotchi.Commands
+﻿namespace Gymagotchi.Requests.Common
 {
     public interface ICommandsBus
     {
