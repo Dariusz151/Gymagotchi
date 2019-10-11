@@ -13,21 +13,24 @@ namespace Gymagotchi.Commands
             _exerciseRepository = exerciseRepository;
         }
 
-        public async void Handle(AddExerciseCommand command)
+        public void Handle(AddExerciseCommand command)
         {
+            var exerciseCategory = _exerciseRepository.GetExerciseCategory(command.ExerciseCategoryId);
+            var exerciseMode = _exerciseRepository.GetExerciseMode(command.ExerciseModeId);
+           
             try
             {
                 var exercise = new Exercise(
                         command.Name,
                         command.Desc,
-                        command.ExerciseCategoryDto.Id,
-                        command.ExerciseModeDto.Id
+                        exerciseCategory,
+                        exerciseMode
                         );
-                await _exerciseRepository.AddExerciseAsync(exercise);
+                _exerciseRepository.AddExercise(exercise);
             }
-            catch
+            catch (Exception ex)
             {
-                Console.WriteLine("Error");
+                Console.WriteLine($"Error: {ex.Message}");
                 //TODO throw own Exception
             }
         }

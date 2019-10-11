@@ -2,9 +2,9 @@
 using Gymagotchi.Interfaces;
 using Gymagotchi.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Gymagotchi.Repositories
 {
@@ -17,22 +17,46 @@ namespace Gymagotchi.Repositories
             _context = context;
         }
 
-        public async Task<bool> AddExerciseAsync(Exercise exercise)
+        public IEnumerable<Exercise> GetExercises()
         {
-            bool isSuccess = false;
-            try
-            {
-                _context.Exercises.Add(exercise);
-                await _context.SaveChangesAsync();
-                isSuccess = true;
-            }
-            catch
-            {
-                Console.WriteLine("Error.");
-                //TODO : throw own Exception
-            }
-           
-            return isSuccess;
+            var exercises = _context.Exercises.ToList();
+
+            return exercises;
+        }
+
+        public Exercise GetExerciseById(Guid id)
+        {
+            var exercise = _context.Exercises.FirstOrDefault(e=>e.Id == id);
+            return exercise;
+        }
+
+        public void DeleteExerciseById(Guid id)
+        {
+            var exercise = _context.Exercises.FirstOrDefault(e => e.Id == id);
+            _context.Exercises.Remove(exercise);
+            _context.SaveChanges();
+        }
+
+        public void UpdateExercise(Exercise exercise)
+        {
+            _context.Exercises.Update(exercise);
+            _context.SaveChanges();
+        }
+
+        public void AddExercise(Exercise exercise)
+        {
+            _context.Exercises.Add(exercise);
+            _context.SaveChanges();
+        }
+
+        public ExerciseCategory GetExerciseCategory(int exerciseCategoryId)
+        {
+            return _context.ExerciseCategories.FirstOrDefault(c => c.Id == exerciseCategoryId);
+        }
+
+        public ExerciseMode GetExerciseMode(int exerciseModeId)
+        {
+            return _context.ExerciseModes.FirstOrDefault(c => c.Id == exerciseModeId);
         }
     }
 }

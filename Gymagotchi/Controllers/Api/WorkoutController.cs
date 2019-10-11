@@ -12,11 +12,8 @@ namespace Gymagotchi.Controllers.Api
     [ApiController]
     public class WorkoutController : ControllerBase
     {
-        private readonly IWorkoutService _workoutService;
-
-        public WorkoutController(IWorkoutService workoutService)
+        public WorkoutController()
         {
-            _workoutService = workoutService;
         }
 
         [HttpGet]

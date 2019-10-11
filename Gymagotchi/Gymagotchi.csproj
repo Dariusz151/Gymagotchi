@@ -28,7 +28,9 @@
 
 
   <ItemGroup>
+    <Folder Include="Configuration\EntityTypeConfiguration\" />
     <Folder Include="Exceptions\" />
+    <Folder Include="Requests\Queries\" />
   </ItemGroup>
 
 </Project>

@@ -13,7 +13,6 @@ using Microsoft.EntityFrameworkCore;
 using Gymagotchi.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Gymagotchi.Services;
 using Gymagotchi.Interfaces;
 using Gymagotchi.Repositories;
 using Autofac;

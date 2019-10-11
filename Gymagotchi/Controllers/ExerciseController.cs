@@ -1,7 +1,6 @@
 ﻿using Gymagotchi.Commands;
 using Gymagotchi.Interfaces;
 using Gymagotchi.Models;
-using Gymagotchi.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gymagotchi.Controllers
