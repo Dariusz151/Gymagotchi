@@ -14,18 +14,12 @@ using Gymagotchi.Data;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Gymagotchi.Services;
 using Gymagotchi.Interfaces;
 using Gymagotchi.Repositories;
 using Autofac;
-using Gymagotchi.Modules;
-using System.IO;
 using System.Reflection;
-using Autofac.Builder;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Microsoft.Extensions.Configuration.UserSecrets;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using CommonServiceLocator;
+using Gymagotchi.Commands;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Gymagotchi
 {
@@ -37,35 +31,13 @@ namespace Gymagotchi
         }
 
         public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        //public void ConfigureServices(IServiceCollection services)
-        //{
-        //    services.Configure<CookiePolicyOptions>(options =>
-        //    {
-        //        // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-        //        options.CheckConsentNeeded = context => true;
-        //        options.MinimumSameSitePolicy = SameSiteMode.None;
-        //    });
-
-        //    services.AddDbContext<ApplicationDbContext>(options =>
-        //        options.UseSqlServer(
-        //            Configuration.GetConnectionString("DefaultConnection")));
-        //    services.AddDefaultIdentity<IdentityUser>()
-        //        .AddDefaultUI(UIFramework.Bootstrap4)
-        //        .AddEntityFrameworkStores<ApplicationDbContext>();
-
-        //    services.AddScoped<IWorkoutService, WorkoutService>();
-        //    services.AddScoped<IWorkoutRepository, WorkoutRepository>();
-        //    services.AddScoped<IExerciseRepository, ExerciseRepository>();
-        //    services.AddScoped<IExerciseService, ExerciseService>();
-
-        //    services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-        //}
-
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
@@ -74,27 +46,26 @@ namespace Gymagotchi
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-           
-            return CreateAutofacServiceProvider(services);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Gymagotchi API", Version = "v1" });
+            });
+
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(new CommandsModule());
+
+            builder.RegisterType<ExerciseRepository>()
+                .As<IExerciseRepository>()
+                .InstancePerLifetimeScope();
+
+            builder.Populate(services);
+            var container = builder.Build();
+
+            return new AutofacServiceProvider(container);
         }
 
-        private IServiceProvider CreateAutofacServiceProvider(IServiceCollection services)
-        {
-            var container = new ContainerBuilder();
-            
-            container.Populate(services);
-
-            container.RegisterModule(new InfrastructureModule(Configuration.GetConnectionString("DefaultConnection")));
-            container.RegisterModule(new MediatorModule());
-            
-            var buildContainer = container.Build();
-
-            ServiceLocator.SetLocatorProvider(() => new AutofacServiceLocator(buildContainer));
-
-            return new AutofacServiceProvider(buildContainer);
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -105,14 +76,17 @@ namespace Gymagotchi
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Gymagotchi API V1");
+            });
             app.UseAuthentication();
 
             app.UseMvc(routes =>

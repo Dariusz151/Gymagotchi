@@ -12,20 +12,38 @@ namespace Gymagotchi.Controllers.Api
     [ApiController]
     public class ExerciseController : ControllerBase
     {
-        private readonly IExerciseService _exerciseService;
-
-        public ExerciseController(IExerciseService exerciseService)
+        private readonly ICommandsBus _commandsBus;
+       
+        public ExerciseController(ICommandsBus commandsBus)
         {
-            _exerciseService = exerciseService;
+            _commandsBus = commandsBus;
         }
 
         [HttpPost]
         [ActionName("Add")]
-        public async Task<IActionResult> AddExercise([FromBody] AddExerciseCommand command)
+        public IActionResult AddExercise([FromBody] AddExerciseCommand command)
         {
-            await _exerciseService.AddExerciseAsync(command);
+            _commandsBus.Send(command);
 
             return Ok();
+        }
+
+        [HttpPut]
+        [ActionName("Update")]
+        public IActionResult UpdateExercise([FromBody] UpdateExerciseCommand command)
+        {
+            _commandsBus.Send(command);
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        [ActionName("Delete")]
+        public IActionResult DeleteExercise([FromBody] DeleteExerciseCommand command)
+        {
+            _commandsBus.Send(command);
+
+            return NoContent();
         }
     }
 }
