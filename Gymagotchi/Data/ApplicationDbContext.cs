@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Gymagotchi.Models;
+﻿using Gymagotchi.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,8 +8,10 @@ namespace Gymagotchi.Data
     {
         public DbSet<Workout> Workouts { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
+        public DbSet<ExerciseCategory> ExerciseCategories { get; set; }
+        public DbSet<ExerciseMode> ExerciseModes { get; set; }
+        public DbSet<ExerciseSet> ExerciseSets { get; set; }
 
-        
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -21,19 +20,19 @@ namespace Gymagotchi.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder
-                .Entity<Exercise>()
-                .Property(e => e.ExerciseMode)
-                .HasConversion(
-                    v => v.ToString(),
-                    v => (ExerciseMode)Enum.Parse(typeof(ExerciseMode), v));
+            //modelBuilder
+            //    .Entity<Exercise>()
+            //    .Property(e => e.ExerciseMode)
+            //    .HasConversion(
+            //        v => v.ToString(),
+            //        v => (ExerciseMode)Enum.Parse(typeof(ExerciseMode), v));
 
-            modelBuilder
-               .Entity<Exercise>()
-               .Property(e => e.ExerciseCategory)
-               .HasConversion(
-                   v => v.ToString(),
-                   v => (ExerciseCategory)Enum.Parse(typeof(ExerciseCategory), v));
+            //modelBuilder
+            //   .Entity<Exercise>()
+            //   .Property(e => e.ExerciseCategory)
+            //   .HasConversion(
+            //       v => v.ToString(),
+            //       v => (ExerciseCategory)Enum.Parse(typeof(ExerciseCategory), v));
 
             base.OnModelCreating(modelBuilder);
         }

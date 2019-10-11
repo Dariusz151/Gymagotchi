@@ -16,6 +16,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Gymagotchi.Services;
 using Gymagotchi.Interfaces;
 using Gymagotchi.Repositories;
+using Autofac;
+using System.Reflection;
+using Gymagotchi.Commands;
+using Autofac.Extensions.DependencyInjection;
 
 namespace Gymagotchi
 {
@@ -28,12 +32,10 @@ namespace Gymagotchi
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
@@ -44,16 +46,22 @@ namespace Gymagotchi
             services.AddDefaultIdentity<IdentityUser>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            services.AddScoped<IWorkoutService, WorkoutService>();
-            services.AddScoped<IWorkoutRepository, WorkoutRepository>();
-            services.AddScoped<IExerciseRepository, ExerciseRepository>();
-            services.AddScoped<IExerciseService, ExerciseService>();
-
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-        }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(new CommandsModule());
+            
+            builder.RegisterType<ExerciseRepository>()
+                .As<IExerciseRepository>()
+                .InstancePerLifetimeScope();
+
+            builder.Populate(services);
+            var container = builder.Build();
+
+            return new AutofacServiceProvider(container);
+        }
+        
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -64,7 +72,6 @@ namespace Gymagotchi
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -73,7 +80,7 @@ namespace Gymagotchi
             app.UseCookiePolicy();
 
             app.UseAuthentication();
-
+            
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

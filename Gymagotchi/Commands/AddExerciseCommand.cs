@@ -1,4 +1,4 @@
-﻿using Gymagotchi.Models;
+﻿using Gymagotchi.Dtos;
 
 namespace Gymagotchi.Commands
 {
@@ -6,15 +6,15 @@ namespace Gymagotchi.Commands
     {
         public string Name { get; set; }
         public string Desc { get; set; }
-        public ExerciseCategory ExerciseCategory { get; set; }
-        public ExerciseMode ExerciseMode { get; set; }
+        public ExerciseCategoryDto ExerciseCategoryDto { get; set; }
+        public ExerciseModeDto ExerciseModeDto { get; set; }
 
-        public AddExerciseCommand(string name, string desc, ExerciseCategory category, ExerciseMode mode)
+        public AddExerciseCommand(string name, string desc, ExerciseCategoryDto category, ExerciseModeDto mode)
         {
             Name = name;
             Desc = desc;
-            ExerciseCategory = category;
-            ExerciseMode = mode;
+            ExerciseCategoryDto = category;
+            ExerciseModeDto = mode;
         }
     }
 }
