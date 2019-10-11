@@ -19,6 +19,7 @@ using Autofac;
 using System.Reflection;
 using Gymagotchi.Commands;
 using Autofac.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Gymagotchi
 {
@@ -45,12 +46,17 @@ namespace Gymagotchi
             services.AddDefaultIdentity<IdentityUser>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Gymagotchi API", Version = "v1" });
+            });
 
             var builder = new ContainerBuilder();
             builder.RegisterModule(new CommandsModule());
-            
+
             builder.RegisterType<ExerciseRepository>()
                 .As<IExerciseRepository>()
                 .InstancePerLifetimeScope();
@@ -60,7 +66,7 @@ namespace Gymagotchi
 
             return new AutofacServiceProvider(container);
         }
-        
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -73,13 +79,17 @@ namespace Gymagotchi
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Gymagotchi API V1");
+            });
             app.UseAuthentication();
-            
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
