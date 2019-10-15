@@ -63,6 +63,11 @@ namespace Gymagotchi
 
             builder.RegisterType<QueryDispatcher>().As<IQueryDispatcher>();
 
+            builder.RegisterType<SqlConnectionFactory>()
+                .As<ISqlConnectionFactory>()
+                .WithParameter("connectionString", Configuration.GetConnectionString("DefaultConnection"))
+                .InstancePerLifetimeScope();
+
             builder.Populate(services);
             var container = builder.Build();
 
