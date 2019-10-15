@@ -7,6 +7,7 @@ using Gymagotchi.Requests.Common;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Dapper;
+using Gymagotchi.Dtos;
 
 namespace Gymagotchi.Controllers.Api
 {
@@ -29,13 +30,13 @@ namespace Gymagotchi.Controllers.Api
         {
             var connection = this._sqlConnectionFactory.GetOpenConnection();
             const string sql = "SELECT " +
-                               "[Order].[Id], " +
-                               "[Order].[IsRemoved], " +
-                               "[Order].[Value], " +
-                               "[Order].[Currency] " +
-                               "FROM orders.v_Orders AS [Order] " +
-                               "WHERE [Order].CustomerId = @CustomerId";
-            var exercises = await connection.QueryAsync<Exercise>(sql);
+                               "[Exercises].[Id], " +
+                               "[Exercises].[Name], " +
+                               "[Exercises].[Desc], " +
+                               "[Exercises].[Category], " +
+                               "[Exercises].[Mode] " +
+                               "FROM [dbo].[v_Exercises] AS [Exercises] ";
+            var exercises = await connection.QueryAsync<ExerciseDto>(sql);
 
             return Ok(exercises);
         }
