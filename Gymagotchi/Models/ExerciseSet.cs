@@ -9,16 +9,24 @@ namespace Gymagotchi.Models
         public int Repeats { get; set; }
         public int SetsAmount { get; set; }
         public float Load { get; set; }
+        public DateTime Timestamp { get; set; }
 
-        public ExerciseSet(Exercise exercise, int repeats, int setsAmount, float load)
+        public ExerciseSet(Exercise exercise, int repeats, int setsAmount, float load, DateTime timestamp)
         {
             Id = Guid.NewGuid();
             Exercise = exercise;
             Repeats = repeats;
             SetsAmount = setsAmount;
             Load = load;
+            Timestamp = timestamp;
         }
-        public ExerciseSet()
+
+        public ExerciseSet(Exercise exercise, int repeats, int setsAmount, float load)
+        {
+            new ExerciseSet(exercise, repeats, setsAmount, load, DateTime.Now);
+        }
+
+        private ExerciseSet()
         {
 
         }

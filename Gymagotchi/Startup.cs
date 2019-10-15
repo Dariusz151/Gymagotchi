@@ -21,6 +21,7 @@ using System.Reflection;
 using Gymagotchi.Commands;
 using Swashbuckle.AspNetCore.Swagger;
 using Gymagotchi.Requests.Common;
+using Gymagotchi.Repositories.Interfaces;
 
 namespace Gymagotchi
 {
@@ -59,6 +60,9 @@ namespace Gymagotchi
 
             builder.RegisterType<ExerciseRepository>()
                 .As<IExerciseRepository>()
+                .InstancePerLifetimeScope();
+            builder.RegisterType<ExerciseSetRepository>()
+                .As<IExerciseSetRepository>()
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<QueryDispatcher>().As<IQueryDispatcher>();

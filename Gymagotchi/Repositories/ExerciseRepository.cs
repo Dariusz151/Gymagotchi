@@ -1,6 +1,7 @@
 ﻿using Gymagotchi.Data;
 using Gymagotchi.Interfaces;
 using Gymagotchi.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace Gymagotchi.Repositories
 
         public Exercise GetExerciseById(Guid id)
         {
-            var exercise = _context.Exercises.FirstOrDefault(e=>e.Id == id);
+            var exercise = _context.Exercises.Include(c => c.ExerciseCategory).Include(c => c.ExerciseMode).FirstOrDefault(e => e.Id == id);
             return exercise;
         }
 
