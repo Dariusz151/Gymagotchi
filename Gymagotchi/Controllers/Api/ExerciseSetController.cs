@@ -29,18 +29,21 @@ namespace Gymagotchi.Controllers.Api
         [ActionName("")]
         public async Task<IActionResult> GetExerciseSets()
         {
-            throw new System.Exception("TODO");
-            //var connection = this._sqlConnectionFactory.GetOpenConnection();
-            //const string sql = "SELECT " +
-            //                   "[Exercises].[Id], " +
-            //                   "[Exercises].[Name], " +
-            //                   "[Exercises].[Desc], " +
-            //                   "[Exercises].[Category], " +
-            //                   "[Exercises].[Mode] " +
-            //                   "FROM [dbo].[v_Exercises] AS [Exercises] ";
-            //var exercises = await connection.QueryAsync<ExerciseDto>(sql);
+            var connection = this._sqlConnectionFactory.GetOpenConnection();
+            const string sql = @"SELECT 
+	                               [Id]
+                                  ,[Name]
+                                  ,[Desc]
+                                  ,[Category]
+                                  ,[Mode]
+                                  ,[Repeats]
+                                  ,[SetsAmount]
+                                  ,[Load]
+                                  ,[Timestamp]
+                              FROM [dbo].[v_ExerciseSets]";
+            var exerciseSets = await connection.QueryAsync<ExerciseSetDto>(sql);
 
-            //return Ok(exercises);
+            return Ok(exerciseSets);
         }
 
         [HttpPost]
