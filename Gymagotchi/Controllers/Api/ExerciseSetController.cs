@@ -55,22 +55,22 @@ namespace Gymagotchi.Controllers.Api
             return Ok();
         }
 
-        //[HttpPut]
-        //[ActionName("Update")]
-        //public IActionResult UpdateExercise([FromBody] UpdateExerciseCommand command)
-        //{
-        //    _commandsBus.Send(command);
+        [HttpDelete]
+        [ActionName("Delete")]
+        public IActionResult DeleteExerciseSets([FromBody] DeleteExerciseSetCommand command)
+        {
+            _commandsBus.Send(command);
 
-        //    return Ok();
-        //}
+            return Ok();
+        }
 
-        //[HttpDelete]
-        //[ActionName("Delete")]
-        //public IActionResult DeleteExercise([FromBody] DeleteExerciseCommand command)
-        //{
-        //    _commandsBus.Send(command);
+        [HttpPut]
+        [ActionName("Update")]
+        public IActionResult UpdateExercise([FromBody] UpdateExerciseSetCommand command)
+        {
+            _commandsBus.Send(command);
 
-        //    return NoContent();
-        //}
+            return Ok();
+        }
     }
 }

@@ -11,6 +11,11 @@ namespace Gymagotchi.Models
         public float Load { get; set; }
         public DateTime Timestamp { get; set; }
 
+        public void SetId(Guid id)
+        {
+            Id = id;
+        }
+
         public ExerciseSet(Exercise exercise, int repeats, int setsAmount, float load, DateTime timestamp)
         {
             Id = Guid.NewGuid();
