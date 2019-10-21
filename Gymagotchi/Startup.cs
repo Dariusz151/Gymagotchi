@@ -68,18 +68,28 @@ namespace Gymagotchi
             var builder = new ContainerBuilder();
             builder.RegisterModule(new CommandsModule());
 
-            builder.RegisterType<ExerciseRepository>()
-                .As<IExerciseRepository>()
+            builder.RegisterAssemblyTypes(AppDomain.CurrentDomain.GetAssemblies())
+                .Where(t => t.Name.EndsWith("Repository"))
+                .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
-            builder.RegisterType<ExerciseSetRepository>()
-                .As<IExerciseSetRepository>()
-                .InstancePerLifetimeScope();
-            builder.RegisterType<WorkoutRepository>()
-               .As<IWorkoutRepository>()
+
+            builder.RegisterAssemblyTypes(AppDomain.CurrentDomain.GetAssemblies())
+               .Where(t => t.Name.EndsWith("Service"))
+               .AsImplementedInterfaces()
                .InstancePerLifetimeScope();
-            builder.RegisterType<UserRepository>()
-               .As<IUserRepository>()
-               .InstancePerLifetimeScope();
+
+            //builder.RegisterType<ExerciseRepository>()
+            //    .As<IExerciseRepository>()
+            //    .InstancePerLifetimeScope();
+            //builder.RegisterType<ExerciseSetRepository>()
+            //    .As<IExerciseSetRepository>()
+            //    .InstancePerLifetimeScope();
+            //builder.RegisterType<WorkoutRepository>()
+            //   .As<IWorkoutRepository>()
+            //   .InstancePerLifetimeScope();
+            //builder.RegisterType<UserRepository>()
+            //   .As<IUserRepository>()
+            //   .InstancePerLifetimeScope();
 
             builder.RegisterType<QueryDispatcher>().As<IQueryDispatcher>();
 
