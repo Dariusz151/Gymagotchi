@@ -1,5 +1,8 @@
 ﻿using Gymagotchi.Commands;
+using Gymagotchi.Data;
 using Gymagotchi.Interfaces;
+using Gymagotchi.Requests.Commands;
+using Gymagotchi.Requests.Common;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,26 +15,22 @@ namespace Gymagotchi.Controllers.Api
     [ApiController]
     public class WorkoutController : ControllerBase
     {
-        public WorkoutController()
+        private readonly ICommandsBus _commandsBus;
+        private readonly ISqlConnectionFactory _sqlConnectionFactory;
+
+        public WorkoutController(ICommandsBus commandsBus, ISqlConnectionFactory sqlConnectionFactory)
         {
+            _commandsBus = commandsBus;
+            _sqlConnectionFactory = sqlConnectionFactory;
         }
-
-        [HttpGet]
-        [ActionName("Ping")]
-        public ActionResult<IEnumerable<string>> Ping()
+        
+        [HttpPost]
+        [ActionName("Assign")]
+        public IActionResult AssignToWorkoutWorkout([FromBody] AssignExerciseToWorkoutCommand command)
         {
-            return new string[] { "WorkoutController" };
+            _commandsBus.Send(command);
+
+            return Ok();
         }
-
-        //[HttpPost]
-        //[ActionName("Add")]
-        //public IActionResult AddWorkout([FromBody] AddWorkoutCommand command)
-        //{
-        //    var userId = new Guid("48577875-4D33-4543-8440-8321EB4BAAA3");
-
-        //    _workoutService.AddWorkout(command);
-
-        //    return Ok();
-        //}
     }
 }

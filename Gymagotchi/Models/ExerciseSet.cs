@@ -1,14 +1,24 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 
 namespace Gymagotchi.Models
 {
     public class ExerciseSet
     {
         public Guid Id { get; set; }
+
+        public IdentityUser User { get; set; }
+
         public Exercise Exercise { get; set; }
+
+        public Workout Workout { get; set; }
+
         public int Repeats { get; set; }
+
         public int SetsAmount { get; set; }
+
         public float Load { get; set; }
+
         public DateTime Timestamp { get; set; }
 
         public void SetId(Guid id)
@@ -16,8 +26,14 @@ namespace Gymagotchi.Models
             Id = id;
         }
 
-        public ExerciseSet(Exercise exercise, int repeats, int setsAmount, float load, DateTime timestamp)
+        public void AssignWorkout(Workout workout)
         {
+            Workout = workout;
+        }
+
+        public ExerciseSet(IdentityUser user, Exercise exercise, int repeats, int setsAmount, float load, DateTime timestamp)
+        {
+            User = user;
             Id = Guid.NewGuid();
             Exercise = exercise;
             Repeats = repeats;
@@ -26,9 +42,9 @@ namespace Gymagotchi.Models
             Timestamp = timestamp;
         }
 
-        public ExerciseSet(Exercise exercise, int repeats, int setsAmount, float load)
+        public ExerciseSet(IdentityUser user, Exercise exercise, int repeats, int setsAmount, float load)
         {
-            new ExerciseSet(exercise, repeats, setsAmount, load, DateTime.Now);
+            new ExerciseSet(user, exercise, repeats, setsAmount, load, DateTime.Now);
         }
 
         private ExerciseSet()

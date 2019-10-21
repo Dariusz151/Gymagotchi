@@ -13,20 +13,24 @@ namespace Gymagotchi.Requests.Commands.Handlers
     {
         private readonly IExerciseSetRepository _exerciseSetRepository;
         private readonly IExerciseRepository _exerciseRepository;
+        private readonly IUserRepository _userRepository;
 
-        public AddExerciseSetCommandHandler(IExerciseSetRepository exerciseSetRepository, IExerciseRepository exerciseRepository)
+        public AddExerciseSetCommandHandler(IExerciseSetRepository exerciseSetRepository, IExerciseRepository exerciseRepository, IUserRepository userRepository)
         {
             _exerciseSetRepository = exerciseSetRepository;
             _exerciseRepository = exerciseRepository;
+            _userRepository = userRepository;
         }
 
         public void Handle(AddExerciseSetCommand command)
         {
             var exercise = _exerciseRepository.GetExerciseById(command.ExerciseId);
+            var user = _userRepository.GetUserById(command.UserId);
 
             try
             {
                 var exerciseSet = new ExerciseSet(
+                        user,
                         exercise,
                         command.Repeats,
                         command.SetsAmount,

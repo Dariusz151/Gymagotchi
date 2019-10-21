@@ -13,23 +13,30 @@ namespace Gymagotchi.Models
         public List<ExerciseSet> Exercises { get; set; }
         public DateTime ExecutedAt { get; set; }
 
-        private Workout()
+        public Workout()
         {
-
+            Id = new Guid();
+            ExecutedAt = DateTime.Now;
+            Description = "";
         }
 
-        private Workout(Guid userId, string desc, List<ExerciseSet> exercises, DateTime executedAt)
+        //private Workout(Guid userId, string desc, List<ExerciseSet> exercises, DateTime executedAt)
+        //{
+        //    this.Id = Guid.NewGuid();
+        //    this.UserId = userId;
+        //    this.Description = desc;
+        //    this.Exercises = exercises;
+        //    this.ExecutedAt = executedAt;
+        //}
+
+        public static Workout Create()
         {
-            this.Id = Guid.NewGuid();
-            this.UserId = userId;
-            this.Description = desc;
-            this.Exercises = exercises;
-            this.ExecutedAt = executedAt;
+            return new Workout();
         }
 
-        public static Workout Create(Guid userId, string desc, List<ExerciseSet> exercises, DateTime executedAt)
-        {
-            return new Workout(userId, desc, exercises, executedAt);
-        }
+        //public static Workout Create(Guid userId, string desc, List<ExerciseSet> exercises, DateTime executedAt)
+        //{
+        //    return new Workout(userId, desc, exercises, executedAt);
+        //}
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Gymagotchi.Data;
 using Gymagotchi.Models;
@@ -33,6 +34,11 @@ namespace Gymagotchi.Repositories
         {
             var exerciseSet = _context.ExerciseSets.Include(c => c.Exercise).FirstOrDefault(e => e.Id == id);
             return exerciseSet;
+        }
+
+        public IList<ExerciseSet> GetExerciseSetsByUser(Guid userId)
+        {
+            return _context.ExerciseSets.Where(e => e.User.Id == userId.ToString()).ToList();
         }
 
         public void UpdateExerciseSet(ExerciseSet exerciseSet)

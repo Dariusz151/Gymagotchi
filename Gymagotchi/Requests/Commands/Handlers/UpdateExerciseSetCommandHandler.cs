@@ -18,11 +18,11 @@ namespace Gymagotchi.Commands.Handlers
 
         public void Handle(UpdateExerciseSetCommand command)
         {
-            var exercise = _exerciseRepository.GetExerciseById(command.ExerciseId);
+            //var exercise = _exerciseRepository.GetExerciseById(command.ExerciseId);
 
-            var newExerciseSet = new ExerciseSet(exercise, command.Repeats, command.SetsAmount, command.Load, command.Timestamp);
-            newExerciseSet.SetId(command.Id);
-            _exerciseSetRepository.UpdateExerciseSet(newExerciseSet);
+            //var newExerciseSet = new ExerciseSet(exercise, command.Repeats, command.SetsAmount, command.Load, command.Timestamp);
+            //newExerciseSet.SetId(command.Id);
+            //_exerciseSetRepository.UpdateExerciseSet(newExerciseSet);
         }
     }
 }

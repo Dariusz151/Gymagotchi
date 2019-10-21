@@ -48,7 +48,7 @@ namespace Gymagotchi.Controllers.Api
 
         [HttpPost]
         [ActionName("Add")]
-        public IActionResult AddExercise([FromBody] AddExerciseSetCommand command)
+        public IActionResult AddExerciseSet([FromBody] AddExerciseSetCommand command)
         {
             _commandsBus.Send(command);
 
@@ -66,7 +66,7 @@ namespace Gymagotchi.Controllers.Api
 
         [HttpPut]
         [ActionName("Update")]
-        public IActionResult UpdateExercise([FromBody] UpdateExerciseSetCommand command)
+        public IActionResult UpdateExerciseSet([FromBody] UpdateExerciseSetCommand command)
         {
             _commandsBus.Send(command);
 

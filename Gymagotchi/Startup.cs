@@ -48,6 +48,16 @@ namespace Gymagotchi
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 5;
+                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddSwaggerGen(c =>
@@ -64,6 +74,12 @@ namespace Gymagotchi
             builder.RegisterType<ExerciseSetRepository>()
                 .As<IExerciseSetRepository>()
                 .InstancePerLifetimeScope();
+            builder.RegisterType<WorkoutRepository>()
+               .As<IWorkoutRepository>()
+               .InstancePerLifetimeScope();
+            builder.RegisterType<UserRepository>()
+               .As<IUserRepository>()
+               .InstancePerLifetimeScope();
 
             builder.RegisterType<QueryDispatcher>().As<IQueryDispatcher>();
 
