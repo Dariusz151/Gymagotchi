@@ -26,18 +26,14 @@ namespace Gymagotchi.Requests.Commands.Handlers
 
         public void Handle(AssignExerciseToWorkoutCommand command)
         {
-            var exercises = (List<ExerciseSet>)_exerciseSetRepository.GetExerciseSetsByUser(command.UserId);
+            var exercises = _exerciseSetRepository.GetExerciseSets(command.Exercises);
             var workout = Workout.Create();
             workout.Description = command.Description;
             workout.Exercises = exercises;
             workout.UserId = command.UserId;
 
             _workoutRepository.AddWorkout(workout);
-
-            foreach (var ex in exercises)
-            {
-                ex.AssignWorkout(workout);
-            }
+            _exerciseSetRepository.AssignWorkout(command.Exercises, workout);
         }
     }
 }

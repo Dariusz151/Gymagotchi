@@ -6,7 +6,8 @@ namespace Gymagotchi.Repositories.Interfaces
 {
     public interface IExerciseSetRepository
     {
-        IList<ExerciseSet> GetExerciseSetsByUser(Guid userId);
+        List<ExerciseSet> GetExerciseSets(List<Guid> exerciseSetsIds);
+        void AssignWorkout(List<Guid> exerciseSetsIds, Workout workout);
         void AddExerciseSet(ExerciseSet exerciseSet);
         void DeleteExerciseSetById(Guid id);
         void UpdateExerciseSet(ExerciseSet exerciseSet);

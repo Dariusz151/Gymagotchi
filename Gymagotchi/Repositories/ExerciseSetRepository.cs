@@ -23,6 +23,17 @@ namespace Gymagotchi.Repositories
             _context.SaveChanges();
         }
 
+        public void AssignWorkout(List<Guid> exerciseSetsIds, Workout workout)
+        {
+            var exerciseSets = _context.ExerciseSets.Where(e => exerciseSetsIds.Contains(e.Id)).ToList();
+            foreach (var el in exerciseSets)
+            {
+                el.AssignWorkout(workout);
+                _context.ExerciseSets.Update(el);
+            }
+            _context.SaveChanges();
+        }
+
         public void DeleteExerciseSetById(Guid id)
         {
             var exerciseSet = _context.ExerciseSets.FirstOrDefault(c => c.Id == id);
@@ -36,10 +47,16 @@ namespace Gymagotchi.Repositories
             return exerciseSet;
         }
 
-        public IList<ExerciseSet> GetExerciseSetsByUser(Guid userId)
+        public List<ExerciseSet> GetExerciseSets(List<Guid> exerciseSetsIds)
         {
-            return _context.ExerciseSets.Where(e => e.User.Id == userId.ToString()).ToList();
+            var exerciseSets = _context.ExerciseSets.Where(e => exerciseSetsIds.Contains(e.Id)).ToList();
+            return exerciseSets;
         }
+
+        //public IList<ExerciseSet> GetExerciseSetsByUser(Guid userId)
+        //{
+        //    return _context.ExerciseSets.Where(e => e.User.Id == userId.ToString()).ToList();
+        //}
 
         public void UpdateExerciseSet(ExerciseSet exerciseSet)
         {
