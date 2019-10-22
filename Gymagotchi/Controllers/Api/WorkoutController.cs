@@ -26,10 +26,36 @@ namespace Gymagotchi.Controllers.Api
         
         [HttpPost]
         [ActionName("Assign")]
-        public IActionResult AssignToWorkoutWorkout([FromBody] AssignExerciseToWorkoutCommand command)
+        public IActionResult AssignToWorkout([FromBody] AssignExerciseToWorkoutCommand command)
         {
             _commandsBus.Send(command);
 
+            return Ok();
+        }
+
+        [HttpGet]
+        [ActionName("")]
+        public IActionResult GetWorkouts(Guid userId)
+        {
+            //var connection = this._sqlConnectionFactory.GetOpenConnection();
+            //const string sql = @"SELECT
+            //                       [Id]
+            //                      ,[UserId]
+            //                      ,[Email]
+            //                      ,[Description]
+            //                      ,[ExecutedAt]
+            //                      ,[ExerciseId]
+            //                      ,[SetsAmount]
+            //                      ,[Load]
+            //                      ,[Repeats]
+            //                      ,[Timestamp]
+            //                  FROM [GymagotchiDB].[dbo].[v_Workouts]
+            //                  WHERE [UserId] = @Id";
+            //var exerciseSets = await connection.QueryAsync<ExerciseSetDto>(sql);
+
+            //return Ok(exerciseSets);
+
+            
             return Ok();
         }
     }
