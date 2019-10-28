@@ -1,7 +1,9 @@
 ﻿using Dapper;
 using Gymagotchi.Data;
 using Gymagotchi.Dtos;
+using Gymagotchi.Requests.Commands;
 using Gymagotchi.Requests.Common;
+using Gymagotchi.Services;
 using Gymagotchi.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -18,11 +20,14 @@ namespace Gymagotchi.Controllers
     {
         private readonly ICommandsBus _commandsBus;
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
-
-        public UserController(ICommandsBus commandsBus, ISqlConnectionFactory sqlConnectionFactory)
+        private readonly IUserService _userService;
+        
+        public UserController(ICommandsBus commandsBus, ISqlConnectionFactory sqlConnectionFactory,
+            IUserService userService)
         {
             _commandsBus = commandsBus;
             _sqlConnectionFactory = sqlConnectionFactory;
+            _userService = userService;
         }
         
         public async Task<IActionResult> UserConfig()
@@ -47,6 +52,13 @@ namespace Gymagotchi.Controllers
             }
             
             return View("UserConfig", usersViewModel);
+        }
+        
+        public async Task<IActionResult> Delete(string userId)
+        {
+            await _userService.DeleteUserAsync(userId);
+
+            return RedirectToAction("UserConfig");
         }
     }
 }
