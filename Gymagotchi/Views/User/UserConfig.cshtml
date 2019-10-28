@@ -1,7 +1,35 @@
-﻿
+﻿@model IEnumerable<Gymagotchi.ViewModels.UserViewModel>
 @{
     ViewData["Title"] = "UserConfig";
 }
 
 <h1>UserConfig</h1>
+
+
+<table class="table">
+    <tr>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Operation</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Role)
+            </td>
+            @Html.HiddenFor(model => item.UserId)
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.UserId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.UserId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.UserId })
+            </td>
+        </tr>
+    }
+
+</table>
 
