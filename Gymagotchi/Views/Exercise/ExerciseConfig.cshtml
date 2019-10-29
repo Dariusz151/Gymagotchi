@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Gymagotchi.Dtos.ExerciseDto>
+@{
+    ViewData["Title"] = "ExerciseConfig";
+}
+
+<h1>ExerciseConfig</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            ID
+        </div>
+        <div class="col-sm">
+            Exercise name
+        </div>
+        <div class="col-sm">
+            Description
+        </div>
+    </div>
+    @foreach (var exercise in Model)
+    {
+        <div class="row">
+            <div class="col-sm">
+                @exercise.Id
+            </div>
+            <div class="col-sm">
+                @exercise.Name
+            </div>
+            <div class="col-sm">
+               @exercise.Desc
+            </div>
+        </div>
+    }
+</div>
+
+
+

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Dapper;
 using Gymagotchi.Dtos;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Gymagotchi.Controllers.Api
 {
@@ -25,6 +26,7 @@ namespace Gymagotchi.Controllers.Api
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [ActionName("")]
         public async Task<IActionResult> GetExercises()
         {
@@ -42,6 +44,7 @@ namespace Gymagotchi.Controllers.Api
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin, Moderator")]
         [ActionName("Add")]
         public IActionResult AddExercise([FromBody] AddExerciseCommand command)
         {
@@ -49,8 +52,9 @@ namespace Gymagotchi.Controllers.Api
 
             return Ok();
         }
-
+        
         [HttpPut]
+        [Authorize(Roles = "Admin, Moderator")]
         [ActionName("Update")]
         public IActionResult UpdateExercise([FromBody] UpdateExerciseCommand command)
         {
@@ -60,6 +64,7 @@ namespace Gymagotchi.Controllers.Api
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Admin, Moderator")]
         [ActionName("Delete")]
         public IActionResult DeleteExercise([FromBody] DeleteExerciseCommand command)
         {

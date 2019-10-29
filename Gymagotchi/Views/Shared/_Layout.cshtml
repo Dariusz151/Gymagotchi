@@ -41,6 +41,12 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Exercise" asp-action="Form">Add Exercise</a>
                         </li>
+                        @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Exercise" asp-action="ExerciseConfig" title="Manage">Config exercises</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
