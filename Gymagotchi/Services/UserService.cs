@@ -20,5 +20,10 @@ namespace Gymagotchi.Services
             var user = await _userManager.FindByIdAsync(userId);
             await _userManager.DeleteAsync(user);
         }
+
+        public async Task<IdentityUser> GetUserAsync(string userId)
+        {
+            return await _userManager.FindByIdAsync(userId);
+        }
     }
 }

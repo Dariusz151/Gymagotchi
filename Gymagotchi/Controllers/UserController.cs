@@ -7,6 +7,7 @@ using Gymagotchi.Services;
 using Gymagotchi.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -21,13 +22,15 @@ namespace Gymagotchi.Controllers
         private readonly ICommandsBus _commandsBus;
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
         private readonly IUserService _userService;
-        
+        private readonly IRoleService _roleService;
+
         public UserController(ICommandsBus commandsBus, ISqlConnectionFactory sqlConnectionFactory,
-            IUserService userService)
+            IUserService userService, IRoleService roleService)
         {
             _commandsBus = commandsBus;
             _sqlConnectionFactory = sqlConnectionFactory;
             _userService = userService;
+            _roleService = roleService;
         }
         
         public async Task<IActionResult> UserConfig()
@@ -59,6 +62,21 @@ namespace Gymagotchi.Controllers
             await _userService.DeleteUserAsync(userId);
 
             return RedirectToAction("UserConfig");
+        }
+
+        public async Task<IActionResult> Edit(string userId)
+        {
+            var user = await _userService.GetUserAsync(userId);
+
+            var editUserRoleViewModel = new EditUserRoleViewModel();
+            editUserRoleViewModel.UserId = user.Id;
+            editUserRoleViewModel.Email = user.Email;
+
+            var roles = await _roleService.GetAllRoles();
+
+            editUserRoleViewModel.Roles = roles;
+            
+            return View("UserRoleEdit", editUserRoleViewModel);
         }
     }
 }

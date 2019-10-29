@@ -1,0 +1,26 @@
+﻿@model Gymagotchi.ViewModels.EditUserRoleViewModel
+@{
+    ViewData["Title"] = "UserRoleEdit";
+}
+
+<h1>UserRoleEdit</h1>
+<table class="table table-light">
+    <thead>
+        <tr>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><div class="col">@Model.Email</div></td>
+            <td>
+                <div class="form-group">
+                    @Html.DropDownListFor(x => x.RoleId, new SelectList(Model.Roles, "Id", "Name"), "Select role", new { @class = "form-group" })
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
